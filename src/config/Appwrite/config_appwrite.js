@@ -1,5 +1,5 @@
 import config from "./Config";
- import {Client,Account,Databases,Storage,Query} from 'appwrite'
+ import {Client,Account,Databases,Storage,Query,ID} from 'appwrite'
  export class Service{
     client =new Client()
     database;
@@ -12,7 +12,7 @@ import config from "./Config";
             this.database =new Databases(this.client);
             this.bucket=new Storage(this.client)
     }
-    async creatPost({title, slug , content , FeaturedImages , status , userId}){
+    async creatPost({title, slug , content , FeaturedImages, status , userId}){
         try {
             return await this.database.createDocument(
                 config.appwritedatabaseId,
@@ -21,16 +21,17 @@ import config from "./Config";
                 {
                     title,
                     content,
-                    FeaturedImages,
+                  FeaturedImages,
                     status,
                     userId
+                    
                 }
             )
         } catch (error) {
-            console('Bete tere se na ho payega',error)
+            console.log('Bete tere se na ho payega',error)
         }
     }
-    async updatePost(slug,{title , content , FeaturedImages , status}){
+    async updatePost(slug,{title , content , FeaturedImages, status}){
         try {
             return await this.database.updateDocument(
                 config.appwritedatabaseId,
@@ -39,7 +40,7 @@ import config from "./Config";
                 {
                     title,
                     content,
-                    FeaturedImages,
+                  FeaturedImages,
                     status
                 }
             )
@@ -89,7 +90,18 @@ import config from "./Config";
      }
 
     //  File creation
-    async createFile(file){
+    // async createFile(file){
+    //     try {
+    //         return await this.bucket.createFile(
+    //             config.appwritebucketId,
+    //             ID.unique(),
+    //             file
+    //         )
+    //     } catch (error) {
+    //         console.log("File creation error:", error)
+    //     }
+    // }
+     async uploadFile(file){
         try {
             return await this.bucket.createFile(
                 config.appwritebucketId,
@@ -97,9 +109,11 @@ import config from "./Config";
                 file
             )
         } catch (error) {
-            console.log("File creation error:", error)
+            console.log("Appwrite serive :: uploadFile :: error", error);
+            return false
         }
     }
+
     async deleteFile(fileId){
         try {
             await this.bucket.deleteFile(
@@ -112,7 +126,7 @@ import config from "./Config";
             return false;
         }
     }
-    async getFilePreview(fileId){f
+    async getFilePreview(fileId){
         try {
             return  this.bucket.getFilePreview(
                 config.appwritebucketId,

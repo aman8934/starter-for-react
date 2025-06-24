@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import appwriteService from "../config/Appwrite/config_appwrite";
 import {Postcard} from '../components'
 import {Container} from '../components'
+import { ID } from 'appwrite';
 
 function Home() {
     const [posts, setPosts] = useState([])
@@ -20,9 +21,9 @@ function Home() {
   
     if (posts.length === 0) {
         return (
-            <div className="w-full py-8 mt-4 text-center">
+            <div className="w-full max-h-full py-8 mt-4 text-center">
                 <Container>
-                    <div className="flex flex-wrap">
+                    <div className="flex justify-center items-center ">
                         <div className="p-2 w-full">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
                                 Login to read posts
@@ -38,7 +39,7 @@ function Home() {
             <Container>
                 <div className='flex flex-wrap'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-1/4'>
+                        <div key={ID.unique()} className='p-2 w-1/4'>
                             <Postcard {...post} />
                         </div>
                     ))}

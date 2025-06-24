@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import appwriteService from '../config/Appwrite/config_appwrite'
 import { Postcard, Container} from '../components'
+import { ID } from 'appwrite'
 function Allpost() {
     const [posts, setPosts] = React.useState([]);
     useEffect(() => { 
@@ -16,8 +17,8 @@ function Allpost() {
         
             <div className="flex flex-wrap">
                  {posts.map((post) => (
-                    <div key={post.$id} className="p-2 w-1">
-                        <Postcard  post={post} />
+                    <div key={ID.unique()} className="p-2 w-1">
+                        <Postcard  key={{...post}}{...post} />
                     </div>
                 ))}
             </div>

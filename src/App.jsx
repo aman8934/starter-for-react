@@ -33,8 +33,8 @@ useEffect(() => {
     <div className='min-h-screen bg-gray-500 flex flex-wrap
     content -between'>
       <div className="w-full block">
-        <Header/>
-        <main>
+        <Header />
+        <main className='bg-gray-300'>
           <h3 className='bg-green-500'>TODO:</h3>
           <Outlet />
         </main>

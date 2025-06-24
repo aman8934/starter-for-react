@@ -36,7 +36,7 @@ function Header() {
       ]
    
   return (
-    <header>
+    <header className=''>
       <Container>
          <nav className='flex'>
               <div className="mr-4">
