@@ -4,7 +4,7 @@ import appwriteService from "../config/Appwrite/config_appwrite";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
-import { ID } from "appwrite";
+
 export default function Post() {
     const [post, setPost] = useState(null);
     const { slug } = useParams();
@@ -12,12 +12,16 @@ export default function Post() {
 
     const userData = useSelector((state) => state.auth.userData);
 
-    const isAuthor = post && userData ? post.userId === ID.unique() : false;
+    const isAuthor = post && userData ? post.userId === userData.$id : false;
 
     useEffect(() => {
         if (slug) {
+            console.log(slug);
+            
             appwriteService.getPost(slug).then((post) => {
-                if (post) setPost(post);
+                if (post) {setPost(post);
+                console.log("this post bro is #########", post);}
+                
                 else navigate("/");
             });
         } else navigate("/");

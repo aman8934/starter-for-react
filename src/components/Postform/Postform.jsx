@@ -24,34 +24,40 @@ function Postform({post}) {
     )
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData)
+    
    const submit = async (data) => {
         if (post) {
-            console.log("featured image is **********************$$$$$$$$", post);
+            // console.log("featured image is **********************$$$$$$$$", post);
+            console.log("data is **********************$$$$$$$$", data.image);
             
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : console.log("No new image uploaded");
 
             if (file) {
-                appwriteService.deleteFile(post.FeaturedImages);
+                appwriteService.deleteFile();
             }
 
-            const dbPost = await appwriteService.updatePost(ID.unique(), {
+            const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
-                FeaturedImages: file ? ID.unique(): undefined,
+                FeaturedImages: file ? file.$id: undefined,
             });
 
             if (dbPost) {
-                navigate(`/post/${ID.unique()}`);
+                navigate(`/post/${post.$id}`);
             }
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
-                const fileId = ID.unique();
+                const fileId = file.$id;
+                console.log("data.image is **********************$$$$$$$$", data.image);
+
                 data.FeaturedImages = fileId;
-                const dbPost = await appwriteService.creatPost({ ...data, userId: ID.unique() });
+                console.log("userData is **********************$$$$$$$$",  userData.userData.$id);
+
+                const dbPost = await appwriteService.creatPost({ userId: userData.userData.$id, ...data });
 
                 if (dbPost) {
-                    navigate(`/post/${ID.unique()}`);
+                    navigate(`/post/${dbPost.$id}`);
                 }
             }
         }
@@ -80,7 +86,7 @@ function Postform({post}) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="w-2/3 px-2">
+            <div className="w-2/3 px-2">aman
                 <Input
                     label="Title :"
                     placeholder="Title"

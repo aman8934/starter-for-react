@@ -13,6 +13,8 @@ function EditPost() {
             appwriteService.getPost(slug).then((post) => {
                 if (post) {
                     setPosts(post)
+                    console.log("this post is #########", post);
+
                 }
             })
         } else {

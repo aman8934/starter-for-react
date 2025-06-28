@@ -2,6 +2,7 @@ import React,{useEffect} from 'react'
 import appwriteService from '../config/Appwrite/config_appwrite'
 import { Postcard, Container} from '../components'
 import { ID } from 'appwrite'
+import { login } from '../Store/authslice';
 function Allpost() {
     const [posts, setPosts] = React.useState([]);
     useEffect(() => { 
@@ -9,6 +10,8 @@ function Allpost() {
         if(posts){
             setPosts(posts.documents)
         }
+        console.log("posts is **********************$$$$$$$$", posts);
+
 })}, []);
    
   return (
@@ -17,6 +20,8 @@ function Allpost() {
         
             <div className="flex flex-wrap">
                  {posts.map((post) => (
+                    
+                    
                     <div key={ID.unique()} className="p-2 w-1">
                         <Postcard  key={{...post}}{...post} />
                     </div>

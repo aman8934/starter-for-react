@@ -28,7 +28,7 @@ import config from "./Config";
                 }
             )
         } catch (error) {
-            console.log('Bete tere se na ho payega',error)
+            console.log('ERROR: in createPost ',error)
         }
     }
     async updatePost(slug,{title , content , FeaturedImages, status}){
@@ -45,7 +45,7 @@ import config from "./Config";
                 }
             )
         } catch (error) {
-            console.log("kuchh nhi ho skta tera",error)
+            console.log("ERROR: in updatePost ",error)
         }
     }
     async deletePost(slug){
@@ -58,7 +58,7 @@ import config from "./Config";
             )
             return true;
         } catch (error) {
-            console.log("tu kuwara hi rhega sale",error)
+            console.log("ERROR: in deletePost ",error)
             return false;
         }
     }
@@ -70,7 +70,7 @@ import config from "./Config";
                 slug
             )
         } catch (error) {
-            console.log("chalta h",error)
+            console.log("ERROR: in getPost ",error)
         }
     }
     async getPosts(queries = [Query.equal('status','active')]){
@@ -83,7 +83,7 @@ import config from "./Config";
             queries
         )
     } catch (error) {
-        console.log("kuchh nahi mil raha",error)
+        console.log("ERROR: in getPosts ",error)
         return false
     }
 
@@ -128,12 +128,17 @@ import config from "./Config";
     }
     async getFilePreview(fileId){
         try {
-            return  this.bucket.getFilePreview(
+            const result= await this.bucket.getFilePreview(
                 config.appwritebucketId,
-                fileId
+                 // Use a unique ID for the preview
+                fileId,
+                //  fileId)
+                
             )
+            return result.href;
         } catch (error) {
             console.log("File preview error:", error)
+            return null
         }
     }
 }
